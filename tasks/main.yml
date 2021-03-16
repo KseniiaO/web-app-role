@@ -1,0 +1,46 @@
+---
+# tasks file for web_app
+
+ - name: install Docker Engine on Amazon Linux 
+   shell: amazon-linux-extras install -y docker
+   
+ - name: install pip
+   yum:
+     name: python-pip
+   
+ - name: install Python SDK
+   pip:
+     name: docker
+
+ - name: start Docker
+   systemd:
+     name: docker
+     state: started
+     enabled: yes
+     
+ - name: Access DockerHub private repo
+   docker_login:
+    username: kseniiaob
+    password: "{{ dockerhub_pass }}"
+    
+ - name: Pull the image
+   shell: docker pull kseniiaob/exam:app
+    
+ - name: Create a network
+   docker_network:
+     name: network_app
+
+ - name: Run web application 
+   docker_container:
+     name: "app{{ item }}"
+     image: kseniiaob/exam:app
+     ports:
+       - "500{{ item }}:5000"
+     recreate: yes
+     hostname: "{{ item }}"
+     networks:
+       - name: network_app
+   with_sequence: count=3
+   
+ - name: Remove old image
+   shell: docker image prune -f
