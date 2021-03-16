@@ -7,7 +7,9 @@
     password: "{{ dockerhub_pass }}"
     
  - name: Pull the image
-   shell: docker pull kseniiaob/exam:app
+   docker_image:
+    name: kseniiaob/exam:app
+    source: pull
     
  - name: Create a network
    docker_network:
