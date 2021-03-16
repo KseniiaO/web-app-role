@@ -1,23 +1,6 @@
 ---
-# tasks file for web_app
-
- - name: install Docker Engine on Amazon Linux 
-   shell: amazon-linux-extras install -y docker
-   
- - name: install pip
-   yum:
-     name: python-pip
-   
- - name: install Python SDK
-   pip:
-     name: docker
-
- - name: start Docker
-   systemd:
-     name: docker
-     state: started
-     enabled: yes
-     
+# tasks file for web-app-role
+    
  - name: Access DockerHub private repo
    docker_login:
     username: kseniiaob
