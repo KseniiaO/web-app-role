@@ -17,8 +17,8 @@
    docker_container:
      name: "app{{ item }}"
      image: kseniiaob/exam:app
-     ports:
-       - "500{{ item }}:5000"
+   #  ports:
+    #   - "500{{ item }}:5000"
      recreate: yes
      hostname: "{{ item }}"
      networks:
